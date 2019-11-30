@@ -1,31 +1,93 @@
-﻿@{
+﻿
+@model IEnumerable<FinalYearProject.Models.ViewModels.ProfessionalCategoryVM>
+
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+@if (Session["UserName"] != null)
+{
+   <h1> Welcome @Session["UserName"].ToString() </h1>
+    } 
+
+    <div class="jumbotron"
+         id="dvImage">
+        <div>
+
+
+            <h2>We Are Professional & Thoughful Peoples</h2>
+            <p class="lead">E_Kamao website was established in response to the growing need for quality housing and commercial space in the city. Since then, we have grown to be one of the leading real estate developers serving the needs of a discerning clientele..</p>
+
+            <p>
+                <a href="/Customer/CustomerLogin" rel="nofollow" id="hero-hire-link" class="btn btn-xlarge btn-primary HomeHero-btn" data-uitest-target="hire-link" data-action="hire-section" data-qtsb-section="HomepageSplash" data-qtsb-label="RedirectToPPP">
+
+                    <span class="HomeHero-btnText--sub">I want to Hire</span>
+                </a>
+                <a href="/Professional/ProfessionalLogin" rel="nofollow" id="hero-hire-link" class="btn btn-xlarge btn-primary HomeHero-btn" data-uitest-target="hire-link" data-action="hire-section" data-qtsb-section="HomepageSplash" data-qtsb-label="RedirectToPPP">
+
+                    <span class="HomeHero-btnText--sub">I want to Work</span>
+                </a>
+
+            </p>
+
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+
+    <div class="big-title color-bg" style="background-color: #FF8C00">
+        <div class="container">
+            <h1 class="entry-title" itemprop="headline" style="color: #111111;">Our Services</h1>
+
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+
+
+
+
+    @foreach (var item in Model)
+    {
+
+
+
+        <div class="col-md-4">
+            <img src="@item.Prof_Cat_img" width="150" height="150" alt="Image" />
+            <h2>@Html.DisplayFor(modelItem => item.Prof_Cat_Name)</h2>
+            <p>
+                @Html.DisplayFor(modelItem => item.Prof_Cat_Remarks)
+            </p>
+            <p><a class="btn btn-default" href="http://localhost:52430/Home/ProCatDetail/@item.Prof_Cat_Id">show more &raquo;</a></p>
+        </div>
+
+    }
+
+    @section scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            var images = ["post01.jpg", "post02.jpg", "post03.jpg", "post04.jpg", "post01.jpg", "post02.jpg", "post03.jpg", "post04.jpg"];
+            $(function () {
+                var i = 0;
+                $("#dvImage").css("background-image", "url(../../Content/Images/" + images[i] + ")");
+                setInterval(function () {
+                    i++;
+                    if (i == images.length) {
+                        i = 0;
+                    }
+                    $("#dvImage").fadeToggle("slow", function () {
+                        $(this).css("background-image", "url(../../Content/Images/" + images[i] + ")");
+                        $(this).fadeIn("slow");
+                    });
+                }, 5000);
+            });
+
+
+        </script>
+
+
+
+    }
+

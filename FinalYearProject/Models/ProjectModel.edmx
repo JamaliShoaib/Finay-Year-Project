@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EWorkDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CityInfo">
+          <Key>
+            <PropertyRef Name="city_Id" />
+          </Key>
+          <Property Name="city_Id" Type="int" Nullable="false" />
+          <Property Name="city_name" Type="varchar" MaxLength="255" />
+          <Property Name="city_remarks" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Cust_Id" />
+          </Key>
+          <Property Name="Cust_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailID" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" />
+          <Property Name="ResetPasswordCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CNIC" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsBanned" Type="bit" Nullable="false" />
+          <Property Name="Img" Type="varchar(max)" />
+          <Property Name="Gender" Type="char" MaxLength="1" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Province_state" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Feedback_Id" />
+          </Key>
+          <Property Name="Feedback_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Feedback" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Feedback_Date" Type="datetime" Nullable="false" />
+          <Property Name="Feedback_rating" Type="int" />
+          <Property Name="Cust_Id" Type="int" Nullable="false" />
+          <Property Name="prof_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hire">
+          <Key>
+            <PropertyRef Name="Hire_Id" />
+          </Key>
+          <Property Name="Hire_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hire_Date" Type="datetime" />
+          <Property Name="Hire_Remarks" Type="nvarchar" MaxLength="250" />
+          <Property Name="Cust_Id" Type="int" Nullable="false" />
+          <Property Name="prof_Id" Type="int" Nullable="false" />
+          <Property Name="Prof_Cat_Id" Type="int" />
+          <Property Name="IsHired" Type="bit" />
+        </EntityType>
+        <EntityType Name="Professional">
+          <Key>
+            <PropertyRef Name="prof_Id" />
+          </Key>
+          <Property Name="prof_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prof_FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prof_LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prof_EmailID" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Prof_DateOfBirth" Type="datetime" />
+          <Property Name="Prof_Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Prof_IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="Prof_ActivationCode" Type="uniqueidentifier" />
+          <Property Name="Prof_ResetPasswordCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="Prof_Address" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Prof_CNIC" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Prof_PhoneNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prof_IsBanned" Type="bit" Nullable="false" />
+          <Property Name="Prof_img" Type="varchar(max)" />
+          <Property Name="Prof_Gender" Type="char" MaxLength="1" />
+          <Property Name="Prof_City" Type="varchar" MaxLength="50" />
+          <Property Name="Prof_Province_State" Type="varchar" MaxLength="50" />
+          <Property Name="Prof_Cat_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="ProfessionalCategory">
+          <Key>
+            <PropertyRef Name="Prof_Cat_Id" />
+          </Key>
+          <Property Name="Prof_Cat_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prof_Cat_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prof_Cat_Remarks" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Prof_Cat_img" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Feedback_Professional">
+          <End Role="Professional" Type="Self.Professional" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professional">
+              <PropertyRef Name="prof_Id" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="prof_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hire_Professional">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Hire" Type="Self.Hire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Cust_Id" />
+            </Principal>
+            <Dependent Role="Hire">
+              <PropertyRef Name="Cust_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hire_Professional1">
+          <End Role="Professional" Type="Self.Professional" Multiplicity="1" />
+          <End Role="Hire" Type="Self.Hire" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Professional">
+              <PropertyRef Name="prof_Id" />
+            </Principal>
+            <Dependent Role="Hire">
+              <PropertyRef Name="Hire_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professional_ProfessionalCategory">
+          <End Role="ProfessionalCategory" Type="Self.ProfessionalCategory" Multiplicity="0..1" />
+          <End Role="Professional" Type="Self.Professional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProfessionalCategory">
+              <PropertyRef Name="Prof_Cat_Id" />
+            </Principal>
+            <Dependent Role="Professional">
+              <PropertyRef Name="Prof_Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EWorkDatabaseModelStoreContainer">
+          <EntitySet Name="CityInfo" EntityType="Self.CityInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hire" EntityType="Self.Hire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Professional" EntityType="Self.Professional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfessionalCategory" EntityType="Self.ProfessionalCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Feedback_Professional" Association="Self.FK_Feedback_Professional">
+            <End Role="Professional" EntitySet="Professional" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hire_Professional" Association="Self.FK_Hire_Professional">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Hire" EntitySet="Hire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hire_Professional1" Association="Self.FK_Hire_Professional1">
+            <End Role="Professional" EntitySet="Professional" />
+            <End Role="Hire" EntitySet="Hire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professional_ProfessionalCategory" Association="Self.FK_Professional_ProfessionalCategory">
+            <End Role="ProfessionalCategory" EntitySet="ProfessionalCategory" />
+            <End Role="Professional" EntitySet="Professional" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EWorkDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Cust_Id" />
+          </Key>
+          <Property Name="Cust_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailID" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" />
+          <Property Name="ResetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsBanned" Type="Boolean" Nullable="false" />
+          <Property Name="Img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Province_state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Hires" Relationship="EWorkDatabaseModel.FK_Hire_Professional1" FromRole="Customer" ToRole="Hire" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Feedback_Id" />
+          </Key>
+          <Property Name="Feedback_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Feedback1" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Feedback_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Feedback_rating" Type="Int32" />
+          <Property Name="Cust_Id" Type="Int32" Nullable="false" />
+          <Property Name="prof_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Professional" Relationship="Self.FK_Feedback_Professional" FromRole="Feedback" ToRole="Professional" />
+        </EntityType>
+        <EntityType Name="Hire">
+          <Key>
+            <PropertyRef Name="Hire_Id" />
+          </Key>
+          <Property Name="Hire_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hire_Date" Type="DateTime" Precision="3" />
+          <Property Name="Hire_Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Cust_Id" Type="Int32" Nullable="false" />
+          <Property Name="prof_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Professional" Relationship="Self.FK_Hire_Professional" FromRole="Hire" ToRole="Professional" />
+          <NavigationProperty Name="Customer" Relationship="EWorkDatabaseModel.FK_Hire_Professional1" FromRole="Hire" ToRole="Customer" />
+          <NavigationProperty Name="Professional1" Relationship="EWorkDatabaseModel.FK_Hire_Professional11" FromRole="Hire" ToRole="Professional" />
+          <Property Name="Prof_Cat_Id" Type="Int32" />
+          <Property Name="IsHired" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Professional">
+          <Key>
+            <PropertyRef Name="prof_Id" />
+          </Key>
+          <Property Name="prof_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prof_FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_EmailID" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="Prof_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prof_IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="Prof_ActivationCode" Type="Guid" />
+          <Property Name="Prof_ResetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Prof_Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_CNIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_IsBanned" Type="Boolean" Nullable="false" />
+          <Property Name="Prof_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Prof_Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Professional" FromRole="Professional" ToRole="Feedback" />
+          <NavigationProperty Name="Hires" Relationship="Self.FK_Hire_Professional" FromRole="Professional" ToRole="Hire" />
+          <Property Name="Prof_City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prof_Province_State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prof_Cat_Id" Type="Int32" />
+          <NavigationProperty Name="Hire" Relationship="EWorkDatabaseModel.FK_Hire_Professional11" FromRole="Professional" ToRole="Hire" />
+          <NavigationProperty Name="ProfessionalCategory" Relationship="EWorkDatabaseModel.FK_Professional_ProfessionalCategory" FromRole="Professional" ToRole="ProfessionalCategory" />
+        </EntityType>
+        <EntityType Name="ProfessionalCategory">
+          <Key>
+            <PropertyRef Name="Prof_Cat_Id" />
+          </Key>
+          <Property Name="Prof_Cat_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prof_Cat_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_Cat_Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prof_Cat_img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Professionals" Relationship="EWorkDatabaseModel.FK_Professional_ProfessionalCategory" FromRole="ProfessionalCategory" ToRole="Professional" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Feedback_Professional">
+          <End Role="Professional" Type="Self.Professional" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professional">
+              <PropertyRef Name="prof_Id" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="prof_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hire_Professional">
+          <End Role="Professional" Type="Self.Professional" Multiplicity="1" />
+          <End Role="Hire" Type="Self.Hire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professional">
+              <PropertyRef Name="prof_Id" />
+            </Principal>
+            <Dependent Role="Hire">
+              <PropertyRef Name="prof_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EWorkDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="Hires" EntityType="Self.Hire" />
+          <EntitySet Name="Professionals" EntityType="Self.Professional" />
+          <EntitySet Name="ProfessionalCategories" EntityType="Self.ProfessionalCategory" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Feedback_Professional" Association="Self.FK_Feedback_Professional">
+            <End Role="Professional" EntitySet="Professionals" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hire_Professional" Association="Self.FK_Hire_Professional">
+            <End Role="Professional" EntitySet="Professionals" />
+            <End Role="Hire" EntitySet="Hires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hire_Professional1" Association="EWorkDatabaseModel.FK_Hire_Professional1">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Hire" EntitySet="Hires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hire_Professional11" Association="EWorkDatabaseModel.FK_Hire_Professional11">
+            <End Role="Professional" EntitySet="Professionals" />
+            <End Role="Hire" EntitySet="Hires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professional_ProfessionalCategory" Association="EWorkDatabaseModel.FK_Professional_ProfessionalCategory">
+            <End Role="ProfessionalCategory" EntitySet="ProfessionalCategories" />
+            <End Role="Professional" EntitySet="Professionals" />
+          </AssociationSet>
+          <EntitySet Name="CityInfoes" EntityType="EWorkDatabaseModel.CityInfo" />
+        </EntityContainer>
+        <Association Name="FK_Hire_Professional1">
+          <End Type="EWorkDatabaseModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="EWorkDatabaseModel.Hire" Role="Hire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Cust_Id" />
+            </Principal>
+            <Dependent Role="Hire">
+              <PropertyRef Name="Cust_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hire_Professional11">
+          <End Type="EWorkDatabaseModel.Professional" Role="Professional" Multiplicity="1" />
+          <End Type="EWorkDatabaseModel.Hire" Role="Hire" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Professional">
+              <PropertyRef Name="prof_Id" />
+            </Principal>
+            <Dependent Role="Hire">
+              <PropertyRef Name="Hire_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professional_ProfessionalCategory">
+          <End Type="EWorkDatabaseModel.ProfessionalCategory" Role="ProfessionalCategory" Multiplicity="0..1" />
+          <End Type="EWorkDatabaseModel.Professional" Role="Professional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProfessionalCategory">
+              <PropertyRef Name="Prof_Cat_Id" />
+            </Principal>
+            <Dependent Role="Professional">
+              <PropertyRef Name="Prof_Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CityInfo">
+          <Key>
+            <PropertyRef Name="city_Id" />
+          </Key>
+          <Property Name="city_Id" Type="Int32" Nullable="false" />
+          <Property Name="city_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="city_remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EWorkDatabaseModelStoreContainer" CdmEntityContainer="EWorkDatabaseEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Province_state" ColumnName="Province_state" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Cust_Id" ColumnName="Cust_Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="IsBanned" ColumnName="IsBanned" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="Feedback_Id" ColumnName="Feedback_Id" />
+                <ScalarProperty Name="Feedback1" ColumnName="Feedback" />
+                <ScalarProperty Name="Feedback_Date" ColumnName="Feedback_Date" />
+                <ScalarProperty Name="Feedback_rating" ColumnName="Feedback_rating" />
+                <ScalarProperty Name="Cust_Id" ColumnName="Cust_Id" />
+                <ScalarProperty Name="prof_Id" ColumnName="prof_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hires">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.Hire">
+              <MappingFragment StoreEntitySet="Hire">
+                <ScalarProperty Name="IsHired" ColumnName="IsHired" />
+                <ScalarProperty Name="Prof_Cat_Id" ColumnName="Prof_Cat_Id" />
+                <ScalarProperty Name="Hire_Id" ColumnName="Hire_Id" />
+                <ScalarProperty Name="Hire_Date" ColumnName="Hire_Date" />
+                <ScalarProperty Name="Hire_Remarks" ColumnName="Hire_Remarks" />
+                <ScalarProperty Name="Cust_Id" ColumnName="Cust_Id" />
+                <ScalarProperty Name="prof_Id" ColumnName="prof_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Professionals">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.Professional">
+              <MappingFragment StoreEntitySet="Professional">
+                <ScalarProperty Name="Prof_Cat_Id" ColumnName="Prof_Cat_Id" />
+                <ScalarProperty Name="Prof_Province_State" ColumnName="Prof_Province_State" />
+                <ScalarProperty Name="Prof_City" ColumnName="Prof_City" />
+                <ScalarProperty Name="prof_Id" ColumnName="prof_Id" />
+                <ScalarProperty Name="Prof_FirstName" ColumnName="Prof_FirstName" />
+                <ScalarProperty Name="Prof_LastName" ColumnName="Prof_LastName" />
+                <ScalarProperty Name="Prof_EmailID" ColumnName="Prof_EmailID" />
+                <ScalarProperty Name="Prof_DateOfBirth" ColumnName="Prof_DateOfBirth" />
+                <ScalarProperty Name="Prof_Password" ColumnName="Prof_Password" />
+                <ScalarProperty Name="Prof_IsEmailVerified" ColumnName="Prof_IsEmailVerified" />
+                <ScalarProperty Name="Prof_ActivationCode" ColumnName="Prof_ActivationCode" />
+                <ScalarProperty Name="Prof_ResetPasswordCode" ColumnName="Prof_ResetPasswordCode" />
+                <ScalarProperty Name="Prof_Address" ColumnName="Prof_Address" />
+                <ScalarProperty Name="Prof_CNIC" ColumnName="Prof_CNIC" />
+                <ScalarProperty Name="Prof_PhoneNumber" ColumnName="Prof_PhoneNumber" />
+                <ScalarProperty Name="Prof_IsBanned" ColumnName="Prof_IsBanned" />
+                <ScalarProperty Name="Prof_img" ColumnName="Prof_img" />
+                <ScalarProperty Name="Prof_Gender" ColumnName="Prof_Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfessionalCategories">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.ProfessionalCategory">
+              <MappingFragment StoreEntitySet="ProfessionalCategory">
+                <ScalarProperty Name="Prof_Cat_img" ColumnName="Prof_Cat_img" />
+                <ScalarProperty Name="Prof_Cat_Id" ColumnName="Prof_Cat_Id" />
+                <ScalarProperty Name="Prof_Cat_Name" ColumnName="Prof_Cat_Name" />
+                <ScalarProperty Name="Prof_Cat_Remarks" ColumnName="Prof_Cat_Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CityInfoes">
+            <EntityTypeMapping TypeName="EWorkDatabaseModel.CityInfo">
+              <MappingFragment StoreEntitySet="CityInfo">
+                <ScalarProperty Name="city_remarks" ColumnName="city_remarks" />
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+                <ScalarProperty Name="city_Id" ColumnName="city_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

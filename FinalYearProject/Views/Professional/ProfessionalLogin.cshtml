@@ -1,0 +1,108 @@
+﻿@model FinalYearProject.Models.ProfessionalLogin
+
+@{
+    ViewBag.Title = "ProfessionalLogin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Please Login to Work</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+<div class="form-horizontal">
+
+    <h4>TradsMan Login</h4>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Prof_EmailID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Prof_EmailID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Prof_EmailID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Prof_Password, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Prof_Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Prof_Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.RememberMe)
+                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+
+     
+
+    }
+  
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="col-md-offset-3 col-md-10">
+                    <input type="submit" UseSubmitBehaviour="false" value="Sign Up" id="sgin" class="btn btn-default" />
+                </div>
+
+
+            </div>
+            <div class="col-md-4">
+
+                <div class="col-md-offset-3 col-md-10">
+                    <input type="submit"  value="Login" class="btn btn-default" />
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#sgin").click(function () {
+
+
+
+                document.write("You will be redirected to main page in 10 sec.");
+                setTimeout('Redirect()', 1000);
+            });
+
+
+        });
+
+        function Redirect() {
+
+            window.location.href = '/Professional/ProfessionalRegistration/';
+
+        }
+    </script>
+
+
+
+
+}

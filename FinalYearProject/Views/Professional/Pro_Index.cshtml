@@ -1,0 +1,75 @@
+﻿@model IEnumerable<FinalYearProject.Models.ViewModels.ProfessionalVM>
+@{
+    ViewBag.Title = "Pro_Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Welcome @HttpContext.Current.User.Identity.Name;
+</h1>
+
+
+@foreach (var item in Model)
+{
+    <br>
+    <div>
+        <div class="col-md-4">
+            <img src="@item.Prof_img" width="150" height="150" alt="Image" />
+            <h2><strong> @Html.DisplayFor(modelItem => item.Prof_FirstName)</strong></h2>
+            <h4>
+                Email
+                @Html.DisplayFor(modelItem => item.Prof_EmailID)
+            </h4>
+            <h4>
+                Address       @Html.DisplayFor(modelItem => item.Prof_Address)
+            </h4>
+            <p>
+                <a class="btn btn-default" onclick="call()" UseSubmitBehaviour="false" id="hire">Request For Hire &raquo;</a>
+            </p>
+            <p><a class="btn btn-default" href="http://localhost:52430/Professional/ProfessionalDetail/@item.prof_Id">Detail</a></p>
+
+
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script>
+
+        $(function () {
+
+            /*
+            * Select products from specified category
+            */
+
+            $("#hire").onclick("change", function () {
+                var url = $(this).val();
+
+                //if (url) {
+                window.location = "localhost:52430/Professional/ProfessionalDetail/" + url;
+                //                }
+
+                return false;
+            });
+
+            //////////////////////////////////////////////////////////////
+
+            /*
+            * Confirm product deletion
+            */
+
+
+            //////////////////////////////////////////////////////////////
+
+        });
+
+        function call() {
+
+            bootbox.confirm("This is the default confirm!", function (result) {
+                console.log('This was logged in the callback: ' + result);
+            });
+        }
+
+    </script>
+}

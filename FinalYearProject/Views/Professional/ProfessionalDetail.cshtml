@@ -1,0 +1,46 @@
+﻿
+@model IEnumerable<FinalYearProject.Models.ViewModels.ProfessionalVM>
+
+@{
+    ViewBag.Title = "ProfessionalDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProfessionalDetail</h2>
+<h1>@HttpContext.Current.User.Identity.Name;</h1>>
+<div>
+    <h4>Professional</h4>
+    <hr />
+
+    @foreach (var item in Model)
+    {
+        <img class="rounded" alt="Cinque Terre" src="@item.Prof_img" width="150" height="150" />
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(modelItem => item.Prof_FirstName)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(modelItem => item.Prof_EmailID)
+            </dd>
+
+
+
+        </dl>
+    }
+            </div>
+
+    
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

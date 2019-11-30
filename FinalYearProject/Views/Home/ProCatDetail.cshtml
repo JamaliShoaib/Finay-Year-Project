@@ -1,0 +1,266 @@
+﻿@model FinalYearProject.Models.ViewModels.Random_Professional
+
+@{
+    /**/
+
+    ViewBag.Title = "ProCatDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>ProCatDetail</h2>
+
+<div class="style-scop"></div>
+<div>
+    <h4>ProfessionalCategoryVM</h4>
+    <hr />
+
+    <div class="form-group">
+        <label>
+
+            Select City
+
+        </label>
+        <select>
+
+            @foreach (var items in Model.City_info)
+            {
+                <option>@items.City_name</option>
+            }
+        </select>
+
+
+    </div>
+
+
+    @foreach (var item in Model.ProCat)
+    {
+
+        <dl class="dl-horizontal">
+            <dt>
+                ID
+
+
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Prof_Cat_Id)
+            </dd>
+
+            <dt>
+                Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Prof_Cat_Name)
+            </dd>
+
+            <dt>
+                Remarks
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Prof_Cat_Remarks)
+            </dd>
+
+        </dl>
+
+    }
+    <div class="big-title color-bg" style="background-color:#FF8C00">
+        <div class="container">
+            <h3 class="entry-title" itemprop="associatedMedia" style="color: #FFFFFF;">
+
+                Top
+                @foreach (var item in Model.ProCat)
+                {
+                    @item.Prof_Cat_Name
+                }
+                in Your City
+
+                <div class="wlr-300">
+
+
+
+
+                    <div class="col-md-5">
+                        <label>
+
+                            Select City
+
+                        </label>
+
+                        <select class="mdb-select validate md-form" searchable="Search here.." onchange="drawStuff(this)">
+                            @foreach (var value in Model.City_info)
+                            {
+
+                                <option>
+                                    @value.City_name
+                                </option>
+                            }
+
+
+                        </select>
+
+
+
+                    </div>
+
+                </div>
+                <p><a class="btn btn-primary" href="http://localhost:52430/Professional/ProfessionalDetail/">Search</a></p>
+            </h3>
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+@foreach (var item in Model.Professional)
+{
+    <br>
+    <panel>
+
+        <div class="mask">
+
+            <div class="col-md-4">
+                <img src="@item.Prof_img" class="rounded mx-auto d-block" width="150" height="150" alt="Image" />
+                <h2><strong> @Html.DisplayFor(modelItem => item.Prof_FirstName)</strong></h2>
+                <h4>
+                    Email
+                    @Html.DisplayFor(modelItem => item.Prof_EmailID)
+                </h4>
+                <h4>
+                    Address       @Html.DisplayFor(modelItem => item.Prof_Address)
+                </h4>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p><a class="btn btn-default" onclick="Hire(@item.prof_Id)">Hire Request</a></p>
+                }
+                else
+                {
+                    <p><a class="btn btn-default" onclick="Hire(@item.prof_Id)">Hire Request</a></p>
+
+                }<p><a class="btn btn-default" href="http://localhost:52430/Professional/ProfessionalDetail/@item.prof_Id">Detail</a></p>
+
+
+
+            </div>
+
+        </div>
+    </panel>
+
+}
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/sweetalert.js"></script>
+    <script type="text/javascript">
+
+        function RequestProcessed() {
+            swal({
+                title: 'Please Wait!',
+                text: 'Your Request Has been Procced',
+                type: 'confirm',
+                showCancelButton: true
+
+                
+            });
+        }
+        function callLogin(pro_id) {
+
+            swal({
+                title: 'Please Login First!',
+                text: 'Please Login first to hire tradsMan' + pro_id,
+                type: 'confirm',
+                showCancelButton: true
+
+
+            });
+           // setTimeout('Hire()', 1000);
+
+        }
+
+
+
+        function drawStuff(menu) {
+
+
+
+
+
+
+            //alert(menu.value);
+
+            //            setTimeout('', 1000);
+
+
+            //window.location.href = 'http://localhost:52430/Professional/Pro_Index/' + menu.value;
+
+
+
+
+        }
+
+        function Hire(prod_id) {
+            var todayDate = new Date().toISOString().slice(0, 10);
+
+            alert(todayDate);
+
+           
+            $.ajax({
+                type: "POST",
+                url: "/Home/Test",
+                contentType: "application/json; charset=utf-8",
+                data: '{"cust_id":"' + "@Session["UserID"]" + '","prof_id":"' + prod_id + '","date":"' + todayDate+ '"}',
+                dataType: "html",
+                success: function (result, status, xhr) {
+
+
+                    alert(result);
+                },
+                error: function (xhr, status, error) {
+  alert(error);
+
+                }
+            });
+
+        }
+
+
+
+
+                /*
+                bootbox.prompt("What is your name?", function (result) {
+
+                })
+
+
+
+                bootbox.dialog({
+                message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>',
+                closeButton: false
+                })*/
+
+        function AjaxCall() {
+
+          
+        } 
+
+    </script>
+}
